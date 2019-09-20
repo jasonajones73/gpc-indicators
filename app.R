@@ -47,6 +47,15 @@ ui <- material_page(
     side_nav_tab_id = "main_page",
     
     material_row(
+      material_column(width = 4,
+                      material_card(title = "About the Data", divider = TRUE, depth = 5,
+                                    uiOutput("about") %>% withSpinner(type = 1, color = "#605ca8",
+                                                                      size = 1)
+                                    ) # Closing material card
+                      ) # Closing material column
+      ), # Closing material row
+    
+    material_row(
       material_column(width = 8,
                       material_card(title = "Indicator Selection", divider = TRUE, depth = 5,
                                     selectizeInput(inputId =  "select", width = "100%",
@@ -233,6 +242,10 @@ server <- function(input, output, session) {
                 pal = pal,
                 values = ~Estimate,
                 opacity = 1)
+  })
+  
+  output$about <- renderUI({
+    HTML(paste("<p><b>Indicator Name: </b>", unique(pull(map_dat(), Description)), "</p>"))
   })
   
   
